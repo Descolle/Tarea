@@ -1,10 +1,21 @@
-from fastapi import FastAPI
+import os
+import requests
+import pandas as pd
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from fastapi import FastAPI
+from dotenv import load_dotenv
 
+# Cargar variables del .env
+load_dotenv()
 
-#Conectamos a MongoDB Atlas
-uri = "mongodb+srv://admin:Password123@cluster0.obm4sdh.mongodb.net/?appName=Cluster0"
+# Obtener credenciales desde variables de entorno
+user = os.getenv("MONGO_USER")
+password = os.getenv("MONGO_PASS")
+cluster = os.getenv("MONGO_CLUSTER")
+
+uri = f"mongodb+srv://{user}:{password}@{cluster}/?appName=Cluster0"
+
 client = MongoClient(uri, server_api=ServerApi('1'))
 
 db = client["yugioh_db"]
